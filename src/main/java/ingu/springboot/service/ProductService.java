@@ -1,5 +1,6 @@
 package ingu.springboot.service;
 
+import ingu.springboot.common.Util;
 import ingu.springboot.model.Product;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,6 @@ import java.util.List;
 
 @Service
 public class ProductService {
-
     /**
      * ProductService is autowired in Controller class
      * so should not autowired in this class or injection errors
@@ -17,13 +17,16 @@ public class ProductService {
 
     public ProductService() {
         this.products = new ArrayList<>();
-        this.products.add(new Product(0, "coffee"));
-        this.products.add(new Product(1, "tea"));
+        for (int i = 0; i < 100; i++) {
+            this.products.add(new Product(i, Util.faker().commerce().productName()));
+        }
     }
     public List<Product> getProductNames() {
+        Util.sleepSeconds(1);
         return this.products;
     }
     public String getProductName(int id) {
-        return this.products.get(id).getName();
+        Util.sleepSeconds(1);
+        return this.products.get(id).getId() + ":" + this.products.get(id).getName();
     }
 }
